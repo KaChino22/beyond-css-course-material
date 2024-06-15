@@ -1,5 +1,42 @@
-$clr-primary: hotpink;
+$clr-primary: rgb(233, 233, 233);
+$clr-secondary: rgb(34, 34, 34);
+$font-size-primary: 18pt;
+$font-sans: system-ui;
+
+
+* {
+    box-sizing: border-box;
+}
 
 body {
-    background: $clr-primary;
+    background: $clr-secondary;
+    color: $clr-primary;
+    font-size: $font-size-primary;
+    font-family: $font-sans;
+    margin: 3rem;
+    line-height: 1.5;
+}
+
+p {
+    max-width: 60ch;
+    // border: 1px solid limegreen;
+
+    .text-centered & {
+        margin-inline: auto;
+    }
+}
+
+.text-centered {
+    text-align: center;
+}
+
+
+
+a {
+    text-decoration: none;
+
+    &:hover,
+    &:focus-visible {
+        text-decoration: underline;
+    }
 }

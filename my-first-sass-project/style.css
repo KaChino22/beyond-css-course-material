@@ -1,5 +1,32 @@
+* {
+  box-sizing: border-box;
+}
+
 body {
-  background: hotpink;
+  background: rgb(34, 34, 34);
+  color: rgb(233, 233, 233);
+  font-size: 18pt;
+  font-family: system-ui;
+  margin: 3rem;
+  line-height: 1.5;
+}
+
+p {
+  max-width: 60ch;
+}
+.text-centered p {
+  margin-inline: auto;
+}
+
+.text-centered {
+  text-align: center;
+}
+
+a {
+  text-decoration: none;
+}
+a:hover, a:focus-visible {
+  text-decoration: underline;
 }
 
 /*# sourceMappingURL=style.css.map */

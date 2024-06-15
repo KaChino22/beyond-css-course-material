@@ -7,10 +7,12 @@ $clr-accent-500: hsl(45, 82%, 45%);
 
 body {
   margin: 4rem 0 0;
+
   font: {
     size: 1.25rem;
     family: system-ui, sans-serif;
   }
+
   text-align: center;
 }
 
@@ -46,9 +48,41 @@ section {
   text-decoration: none;
   text-transform: uppercase;
   // your code here
+
+  &:hover,
+  &:focus {
+    // background: inherit;
+    // color: inherit;
+    outline: currentColor 2px solid;
+  }
+
+  .surface-primary &,
+  .surface-secondary & {
+    color: black;
+    background: white;
+  }
+
+  .surface-accent & {
+    color: white;
+    background: black;
+  }
+
 }
 
 .text-subdued {
   font-size: 1rem;
   // your code here
+
+  .surface-primary & {
+    opacity: .8;
+  }
+
+  .surface-secondary & {
+    opacity: .7;
+  }
+
+  .surface-accent & {
+    opacity: .6;
+  }
+
 }
