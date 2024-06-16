@@ -11,7 +11,7 @@
 
 - body color
 - button hover/focus background
-- shadow color on the card
+- **shadow color on the card**
 
 ## Red: #da3f0b
 
