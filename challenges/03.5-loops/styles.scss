@@ -1,0 +1,155 @@
+@use "sass:color";
+$total-columns: 12;
+
+body {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-weight: bold;
+    margin: 1rem;
+    padding: 0;
+}
+
+.main-grid {
+    display: grid;
+    grid-template-columns: repeat($total-columns, 1fr);
+    gap: 1rem;
+
+}
+
+
+// demo only
+.col,
+[class*="col-"] {
+    background-color: lightblue;
+    padding: 0.5rem;
+    border: 1px solid steelblue;
+    text-align: center;
+}
+
+//
+
+[class*="col-"] {
+    grid-column: 1 / -1;
+}
+
+@for $column-count from 1 through $total-columns {
+    .col-#{$column-count} {
+        grid-column: span $column-count;
+    }
+
+    @media (min-width: 30em) {
+        .col-sm-#{$column-count} {
+            grid-column: span $column-count;
+        }
+    }
+
+    @media (min-width: 45em) {
+        .col-md-#{$column-count} {
+            grid-column: span $column-count;
+        }
+    }
+
+    @media (min-width: 60em) {
+        .col-lg-#{$column-count} {
+            grid-column: span $column-count;
+        }
+    }
+}
+
+$clr-primary: #2553db;
+$clr-steps: 10;
+/* lightness for each step should increase by 10% */
+
+@for $i from 1 through $clr-steps {
+    .clr-primary-#{$i} {
+        color: color.scale($clr-primary, $lightness: (
+                $i - 1) * 10%
+        );
+}
+}
+
+@each $color in red, blue, green {
+    .clr-#{$color} {
+        color: $color;
+    }
+}
+
+$icons: mail, twitter, github;
+
+.icon {
+    width: 1.5rem;
+    aspect-ratio: 1;
+    background-size: contain;
+
+    // your code goes here
+    @each $icon in $icons {
+        .icon--#{$icon} {
+            background-image: url("/images/#{$icon}.svg");
+        }
+    }
+}
+
+
+$colors: (
+    primary,
+    #4287f5),
+    (secondary, #3a128a),
+    (accent, #f59c42
+);
+
+$colors: (
+    primary,
+    #4287f5),
+    (secondary, #3a128a),
+    (accent, #f59c42
+);
+
+@each $name, $color in $colors {
+    .clr-#{$name} {
+        background: $color;
+
+        @if (color.lightness($color) < 50%) {
+            color: white;
+        }
+
+    }
+}
+
+@mixin border($side: all, $color: #dedede, $width: 1px, $style: solid) {
+    @if ($side =="all") {
+        border: $color $width $style;
+    }
+
+    @else if $side =="top" or $side =="bottom" or $side =="right" or $side =="left" {
+        border-#{$side}: $color $width $style;
+    }
+
+    @else {
+        @warn "The side value must be all, top, bottom, right or left, you entered #{$side}"
+    }
+}
+
+
+// will set the border on all 4 sides 
+
+.tag {
+    @include border;
+}
+
+// will set the border only on the bottom
+.call-to-action {
+    @include border(bottom);
+}
+
+@function high-contrast($color) {
+    @return if(color.lightness($color) > 50, black, white);
+}
+
+@mixin good-color-combo($color) {
+    background: $color;
+    color: high-contrast($color);
+
+}
+
+.call-to-action {
+    @include good-color-combo(rgb(140, 113, 138));
+}
