@@ -1,0 +1,129 @@
+@use "sass:meta";
+@use "sass:math";
+
+@use 'sass:color';
+@use 'sass:map';
+
+$bp-small: 35em;
+$bp-medium: 55em;
+$bp-large: 70em;
+
+@function is-valid-breakpoint($value) {
+    @return meta.type-of($value)==number and math.is-unitless($value)==false;
+}
+
+@mixin mq($bp-small, $type: min-width, $bp-medium: $bp-small) {
+    @if $type ==between {
+        @if (is-valid-breakpoint($bp-small)==false) {
+            @error 'You entered a unitless number #{$bp-small}'
+        }
+
+        @if (is-valid-breakpoint($bp-medium)==false) {
+            @error 'You entered a unitless number #{$bp-medium}'
+        }
+
+        @if ($type !='min-width' and $type !='max-width' and $type !=between) {
+            @error 'You entered a wrong argument. You entered #{$type}'
+        }
+
+        @media (min-width: $bp-small) and (max-width: $bp-medium) {
+            @content;
+        }
+
+    }
+
+    @if $type !=between {
+        @media screen and ($type: $bp-small) {
+            @content;
+        }
+    }
+
+
+}
+
+.should-work {
+    @include mq($bp-medium) {
+        font-size: 1.25rem;
+    }
+
+    @include mq(400px) {
+        font-size: 1.25rem;
+    }
+
+    @include mq(50em, max-width) {
+        font-size: 1.25rem;
+    }
+}
+
+.should-throw-an-error {
+    // @include mq(500) {
+    //     font-size: 1.25rem;
+    // }
+
+    // @include mq(50em, somethingelse) {
+    //     font-size: 1.25rem;
+    // }
+}
+
+.should-work {
+    @include mq($bp-small, between, $bp-medium) {
+        font-size: 2rem;
+    }
+}
+
+
+// next example
+
+$colors: (
+    'primary': #1b6db5,
+    'secondary': #4a1ab0,
+    'accent': #d97614
+);
+
+@function clr($color) {
+    @if (map.get($colors, $color) !=null) {
+        @return map.get($colors, $color);
+    }
+
+    @else {
+        @error 'Could not find #{$color} in map.'
+    }
+}
+
+.example {
+    // should output color: #1b6db5;
+    color: clr(primary);
+}
+
+// .example-2 {
+//     // should throw an error
+//     color: clr(purple);
+// }
+
+
+
+
+$colors: (
+    primary: (light: lightblue,
+        normal: blue,
+        dark: darkblue),
+    secondary: (light: pink,
+        normal: red,
+        dark: firebrick),
+    accent: orange
+);
+
+@function colr($color...) {
+    @if (map.has-key($colors, $color...)) {
+        @return map.get($colors, $color...);
+    }
+
+    @else {
+        @error 'Could not find #{$color} in the $colors map.'
+    }
+}
+
+.test {
+    font-size: 2rem;
+    color: colr(acce);
+}

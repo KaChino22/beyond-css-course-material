@@ -1,0 +1,65 @@
+@use 'sass:map';
+@use 'sass:math';
+@use 'sass:meta';
+
+$breakpoints: (
+    small: 30em,
+    medium: 45em,
+    large: 65em,
+    xl: 80em
+);
+
+@mixin mq($size) {
+
+    // First, check if the value is in the map, and if it is, we can use that.
+    @if (map.has-key($breakpoints, $size)) {
+        $breakpoint: map.get($breakpoints, $size);
+
+        @media screen and (min-width: $breakpoint) {
+            @content;
+        }
+    }
+
+    @else if (meta.type-of($size)==number) {
+        @if (math.is-unitless($size)) {
+            @error 'The entered breakpoint #{$size} has no unit.'
+        }
+
+        @else {
+            @media screen and (min-width: $size) {
+                @content;
+            }
+        }
+
+    }
+
+
+    @else {
+        @error 'The breakpoint #{$size} is not in the $breakpoints map and it is not a number with unit.'
+    }
+}
+
+body {
+
+    // all of these should work
+    @include mq(medium) {
+        background: pink;
+    }
+
+    @include mq(500px) {
+        background: lightblue;
+    }
+
+    @include mq(100em) {
+        background: #efefef;
+    }
+
+    // these should fail, with an error telling me why
+    // @include mq(reallysmall) {
+    //     background: yellow;
+    // }
+
+    // @include mq(5000) {
+    //     background: purple;
+    // }
+}
