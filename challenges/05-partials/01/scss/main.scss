@@ -1,0 +1,11 @@
+@use "../abstracts/colors" as c;
+@use "../abstracts/font-sizes" as fs;
+@use "../abstracts/mixins" as m;
+
+.card {
+    @include m.decorative-corner(red);
+    color: c.$clr-primary;
+    font-size: fs.$fs-600;
+    width: 30rem;
+    padding: 1rem;
+}
